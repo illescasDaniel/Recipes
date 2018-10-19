@@ -8,6 +8,7 @@
 
 import Foundation
 
+// TODO: Recipes might be implemented with Ingredient in the future
 enum Ingredient: String {
 	
 	case hotSauce = "hot+sauce"
