@@ -19,7 +19,6 @@ struct Recipe: Codable, Hashable {
 		let trimmedTitle = self.title.trimmingCharacters(in: .whitespacesAndNewlines)
 		let typedIngredients = self.ingredients.components(separatedBy: ", ").map { Ingredient(rawValue: $0) ?? .unknown }
 		let trimmedThumbnail = self.thumbnail.trimmingCharacters(in: .whitespacesAndNewlines)
-		//let typedURL =  isEmpty ? nil : URL(string: self.thumbnail)
-		return ImprovedRecipe(title: trimmedTitle, href: self.href, ingredients: typedIngredients, thumbnail: trimmedThumbnail) //typedURL)
+		return ImprovedRecipe(title: trimmedTitle, href: self.href, ingredients: typedIngredients, thumbnail: trimmedThumbnail)
 	}
 }

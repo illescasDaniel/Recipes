@@ -184,7 +184,7 @@
 		65D6689A217933250088755C /* Recipe */ = {
 			isa = PBXGroup;
 			children = (
-				65D668AF217A66D40088755C /* details */,
+				65D668AF217A66D40088755C /* extra */,
 				65D668812178FDB50088755C /* Recipe.swift */,
 			);
 			path = Recipe;
@@ -216,13 +216,13 @@
 			path = CustomViews;
 			sourceTree = "<group>";
 		};
-		65D668AF217A66D40088755C /* details */ = {
+		65D668AF217A66D40088755C /* extra */ = {
 			isa = PBXGroup;
 			children = (
 				65D668852178FFCE0088755C /* Ingredients.swift */,
 				65D66898217932710088755C /* ImprovedRecipe.swift */,
 			);
-			name = details;
+			name = extra;
 			sourceTree = "<group>";
 		};
 		65D668B3217A685B0088755C /* REST Search */ = {
