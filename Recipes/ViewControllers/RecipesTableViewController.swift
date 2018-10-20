@@ -151,23 +151,6 @@ extension RecipesTableViewController: UITableViewDataSourcePrefetching {
 	}
 }
 
-class RecipeImageViewController: UIViewController {
-	
-	var recipeURL: URL?
-	var image: UIImage?
-
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		let imageView = UIImageView(frame: self.view.bounds).apply {
-			$0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-			$0.contentMode = .scaleAspectFit
-			$0.image = self.image
-		}
-		self.view.insertSubview(imageView, at: 0)
-		self.preferredContentSize = CGSize(width: 1000, height: 1000)
-	}
-}
-
 extension RecipesTableViewController: UIViewControllerPreviewingDelegate {
 	
 	func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {

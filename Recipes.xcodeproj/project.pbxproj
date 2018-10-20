@@ -29,6 +29,7 @@
 		65D668AD217A64380088755C /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D668AC217A64380088755C /* Collection+Extension.swift */; };
 		65D668B8217B829C0088755C /* ApplyProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D668B7217B829C0088755C /* ApplyProtocol.swift */; };
 		65D668BA217B82DE0088755C /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D668B9217B82DE0088755C /* UIView+Extension.swift */; };
+		65D668BC217B85110088755C /* RecipeImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D668BB217B85110088755C /* RecipeImageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		65D668AC217A64380088755C /* Collection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
 		65D668B7217B829C0088755C /* ApplyProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyProtocol.swift; sourceTree = "<group>"; };
 		65D668B9217B82DE0088755C /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		65D668BB217B85110088755C /* RecipeImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,8 +218,8 @@
 		65D668A7217A292E0088755C /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
-				65D668A5217A28AF0088755C /* RoundImageCell.xib */,
-				65D668A8217A29480088755C /* RoundImageCell.swift */,
+				65D668BD217B85180088755C /* RoundImageCell */,
+				65D668BB217B85110088755C /* RecipeImageViewController.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -256,6 +258,15 @@
 				65D66894217915570088755C /* EncodedRecipeSearchQuery.swift */,
 			);
 			name = Query;
+			sourceTree = "<group>";
+		};
+		65D668BD217B85180088755C /* RoundImageCell */ = {
+			isa = PBXGroup;
+			children = (
+				65D668A5217A28AF0088755C /* RoundImageCell.xib */,
+				65D668A8217A29480088755C /* RoundImageCell.swift */,
+			);
+			name = RoundImageCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -401,6 +412,7 @@
 				65D668AD217A64380088755C /* Collection+Extension.swift in Sources */,
 				65D6689021790F9D0088755C /* String+Extension.swift in Sources */,
 				65D668512178FAFF0088755C /* AppDelegate.swift in Sources */,
+				65D668BC217B85110088755C /* RecipeImageViewController.swift in Sources */,
 				65D668862178FFCE0088755C /* Ingredients.swift in Sources */,
 				65D6689D217938D80088755C /* RecipesTableViewController.swift in Sources */,
 				65D668822178FDB50088755C /* Recipe.swift in Sources */,
