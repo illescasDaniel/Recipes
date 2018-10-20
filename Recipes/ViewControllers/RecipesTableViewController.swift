@@ -41,11 +41,13 @@ class RecipesTableViewController: UITableViewController {
 										preferredStyle: .alert)
 		
 		ingredientsFilterAlert.addTextField { textField in
-			textField.placeholder = "Ingredients"
-			textField.text = self.ingredients
-			textField.keyboardType = .namePhonePad
-			textField.keyboardAppearance = .light
-			textField.addConstraint(textField.heightAnchor.constraint(equalToConstant: 25))
+			textField.apply {
+				$0.placeholder = "Ingredients"
+				$0.text = self.ingredients
+				$0.keyboardType = .namePhonePad
+				$0.keyboardAppearance = .light
+				$0.addConstraint(textField.heightAnchor.constraint(equalToConstant: 25))
+			}
 		}
 		if !self.ingredients.isEmpty {
 			ingredientsFilterAlert.addAction(UIAlertAction(title: "Reset", style: .default) { _ in
@@ -57,12 +59,11 @@ class RecipesTableViewController: UITableViewController {
 		}
 		ingredientsFilterAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 		ingredientsFilterAlert.addAction(UIAlertAction(title: "Use", style: .default) { _ in
-			if let ingredientsFilterText = ingredientsFilterAlert.textFields?.first?.text {
-				self.ingredients = ingredientsFilterText
-				let newQuery = RecipeSearchQuery(title: self.query.title, ingredients: self.ingredients, pageNumber: 1)
-				self.query = newQuery
-				self.loadRecipes()
-			}
+			guard let ingredientsFilterText = ingredientsFilterAlert.textFields?.first?.text  else { return }
+			self.ingredients = ingredientsFilterText
+			let newQuery = RecipeSearchQuery(title: self.query.title, ingredients: self.ingredients, pageNumber: 1)
+			self.query = newQuery
+			self.loadRecipes()
 		})
 		self.present(ingredientsFilterAlert, animated: true)
 	}
@@ -115,13 +116,7 @@ class RecipesTableViewController: UITableViewController {
     }
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		guard let recipe = self.recipes[safe: indexPath.row] else { return }
-		let config = SFSafariViewController.Configuration()
-		config.entersReaderIfAvailable = true
-		let safariVC = SFSafariViewController(url: recipe.href, configuration: config)
-		safariVC.delegate = self
-		safariVC.preferredControlTintColor = self.view.tintColor
-		self.present(safariVC, animated: true)
+		self.presentWebInSafariVC(url: self.recipes[safe: indexPath.row]?.href)
 	}
 }
 
@@ -129,7 +124,6 @@ extension RecipesTableViewController: SFSafariViewControllerDelegate {}
 
 extension RecipesTableViewController: UISearchBarDelegate {
 	
-	// TODO: provide ingredients
 	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		let searchTextTrimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
 		if searchText.isEmpty {
@@ -157,14 +151,52 @@ extension RecipesTableViewController: UITableViewDataSourcePrefetching {
 	}
 }
 
+class RecipeImageViewController: UIViewController {
+	
+	var recipeURL: URL?
+	var image: UIImage?
+
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		let imageView = UIImageView(frame: self.view.bounds).apply {
+			$0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+			$0.contentMode = .scaleAspectFit
+			$0.image = self.image
+		}
+		self.view.insertSubview(imageView, at: 0)
+		self.preferredContentSize = CGSize(width: 1000, height: 1000)
+	}
+}
+
+extension RecipesTableViewController: UIViewControllerPreviewingDelegate {
+	
+	func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+		guard let indexPath = self.tableView?.indexPathForRow(at: location) else { return nil }
+		let recipe = self.recipes[safe: indexPath.row]
+		let recipesVC = RecipeImageViewController().apply {
+			$0.image = self.images[recipe?.thumbnail ?? ""]
+			$0.recipeURL = recipe?.href
+		}
+		return recipesVC
+	}
+	func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+		guard let recipeVC = viewControllerToCommit as? RecipeImageViewController else { return }
+		self.presentWebInSafariVC(url: recipeVC.recipeURL)
+	}
+}
 
 // Convenience
 extension RecipesTableViewController {
 	
 	private func setupDelegatesAndViews() {
+		
 		self.recipesSearchBar.delegate = self
 		self.tableView.prefetchDataSource = self
+		
 		self.tableView.register(UINib(nibName: "RoundImageCell", bundle: nil), forCellReuseIdentifier: "RoundImageCell")
+		if self.traitCollection.forceTouchCapability == .available, let tableView = self.tableView {
+			self.registerForPreviewing(with: self, sourceView: tableView)
+		}
 	}
 
 	private func downloadThumbnailAt(indexPath: IndexPath, loadInto imageView: UIImageView? = nil) {
@@ -177,13 +209,14 @@ extension RecipesTableViewController {
 	}
 	
 	private func emptySearchBackgroundView() -> UIView {
-		let noRecipesLabel = UILabel(frame: self.view.bounds)
-		noRecipesLabel.text = "No recipes"
-		noRecipesLabel.textColor = .gray
-		noRecipesLabel.numberOfLines = 0;
-		noRecipesLabel.textAlignment = .center;
-		noRecipesLabel.font = UIFont.preferredFont(forTextStyle: .title2)
-		noRecipesLabel.sizeToFit()
+		let noRecipesLabel = UILabel(frame: self.view.bounds).apply {
+			$0.text = "No recipes"
+			$0.textColor = .gray
+			$0.numberOfLines = 0
+			$0.textAlignment = .center
+			$0.font = .preferredFont(forTextStyle: .title2)
+			$0.sizeToFit()
+		}
 		return noRecipesLabel
 	}
 	
@@ -214,5 +247,17 @@ extension RecipesTableViewController {
 				}
 			}
 		})
+	}
+	
+	private func presentWebInSafariVC(url: URL?) {
+		guard let url = url else { return }
+		let config = SFSafariViewController.Configuration().apply {
+			$0.entersReaderIfAvailable = true
+		}
+		let safariVC = SFSafariViewController(url: url, configuration: config).apply {
+			$0.delegate = self
+			$0.preferredControlTintColor = self.view.tintColor
+		}
+		self.present(safariVC, animated: true)
 	}
 }

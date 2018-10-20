@@ -27,6 +27,8 @@
 		65D668A9217A29480088755C /* RoundImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D668A8217A29480088755C /* RoundImageCell.swift */; };
 		65D668AB217A40F20088755C /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D668AA217A40F20088755C /* DownloadManager.swift */; };
 		65D668AD217A64380088755C /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D668AC217A64380088755C /* Collection+Extension.swift */; };
+		65D668B8217B829C0088755C /* ApplyProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D668B7217B829C0088755C /* ApplyProtocol.swift */; };
+		65D668BA217B82DE0088755C /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D668B9217B82DE0088755C /* UIView+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,8 @@
 		65D668A8217A29480088755C /* RoundImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundImageCell.swift; sourceTree = "<group>"; };
 		65D668AA217A40F20088755C /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		65D668AC217A64380088755C /* Collection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
+		65D668B7217B829C0088755C /* ApplyProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyProtocol.swift; sourceTree = "<group>"; };
+		65D668B9217B82DE0088755C /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +181,7 @@
 			children = (
 				65D6688F21790F9D0088755C /* String+Extension.swift */,
 				65D668AC217A64380088755C /* Collection+Extension.swift */,
+				65D668B9217B82DE0088755C /* UIView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -203,6 +208,7 @@
 			children = (
 				65D668912179122A0088755C /* RestParameter.swift */,
 				65D668AA217A40F20088755C /* DownloadManager.swift */,
+				65D668B7217B829C0088755C /* ApplyProtocol.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -386,7 +392,9 @@
 			files = (
 				65D668802178FD550088755C /* RecipeQueryResult.swift in Sources */,
 				65D66899217932710088755C /* ImprovedRecipe.swift in Sources */,
+				65D668BA217B82DE0088755C /* UIView+Extension.swift in Sources */,
 				65D66895217915570088755C /* EncodedRecipeSearchQuery.swift in Sources */,
+				65D668B8217B829C0088755C /* ApplyProtocol.swift in Sources */,
 				65D668AB217A40F20088755C /* DownloadManager.swift in Sources */,
 				65D66889217902DC0088755C /* RecipesSearch.swift in Sources */,
 				65D6688B217904000088755C /* RecipeSearchQuery.swift in Sources */,
