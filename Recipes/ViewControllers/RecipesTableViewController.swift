@@ -10,8 +10,6 @@ import UIKit
 import SafariServices
 
 class RecipesTableViewController: UITableViewController {
-
-	@IBOutlet weak var recipesSearchBar: UISearchBar!
 	
 	private var query = RecipeSearchQuery(title: "", ingredients: "", pageNumber: 1)
 	
@@ -33,11 +31,21 @@ class RecipesTableViewController: UITableViewController {
 		self.navigationItem.rightBarButtonItem?.action = #selector(self.ingredientFilterButtonAction)
     }
 	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		self.navigationItem.hidesSearchBarWhenScrolling = false
+	}
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		self.navigationItem.hidesSearchBarWhenScrolling = true
+	}
+	
 	@objc
 	private func ingredientFilterButtonAction() {
 		
 		let ingredientsFilterAlert = UIAlertController(title: "Ingredients",
-										message: "Separate by comma the ingredients you want to use as filters for the recipes search",
+										message: "Separate by comma the ingredients you want to use as filter for the recipes search",
 										preferredStyle: .alert)
 		
 		ingredientsFilterAlert.addTextField { textField in
@@ -51,19 +59,13 @@ class RecipesTableViewController: UITableViewController {
 		}
 		if !self.ingredients.isEmpty {
 			ingredientsFilterAlert.addAction(UIAlertAction(title: "Reset", style: .default) { _ in
-				self.ingredients = ""
-				let newQuery = RecipeSearchQuery(title: self.query.title, ingredients: self.ingredients, pageNumber: 1)
-				self.query = newQuery
-				self.loadRecipes()
+				self.loadRecipes(from: RecipeSearchQuery(title: self.query.title, ingredients: "", pageNumber: 1))
 			})
 		}
 		ingredientsFilterAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 		ingredientsFilterAlert.addAction(UIAlertAction(title: "Use", style: .default) { _ in
 			guard let ingredientsFilterText = ingredientsFilterAlert.textFields?.first?.text  else { return }
-			self.ingredients = ingredientsFilterText
-			let newQuery = RecipeSearchQuery(title: self.query.title, ingredients: self.ingredients, pageNumber: 1)
-			self.query = newQuery
-			self.loadRecipes()
+			self.loadRecipes(from: RecipeSearchQuery(title: self.query.title, ingredients: ingredientsFilterText, pageNumber: 1))
 		})
 		self.present(ingredientsFilterAlert, animated: true)
 	}
@@ -118,23 +120,36 @@ class RecipesTableViewController: UITableViewController {
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		self.presentWebInSafariVC(url: self.recipes[safe: indexPath.row]?.href)
 	}
+	
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		
+		if !self.query.ingredients.isEmpty {
+			return "Results filtered by ingredients"
+		}
+		return self.query.title.isEmpty ? "Some recipes" : "Results"
+	}
 }
 
 extension RecipesTableViewController: SFSafariViewControllerDelegate {}
 
-extension RecipesTableViewController: UISearchBarDelegate {
+extension RecipesTableViewController: UISearchBarDelegate, UISearchControllerDelegate {
 	
 	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		let searchTextTrimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
 		if searchText.isEmpty {
 			searchBar.endEditing(true)
 		}
-		self.query = RecipeSearchQuery(title: searchTextTrimmed, ingredients: self.ingredients, pageNumber: 1)
-		self.loadRecipes()
+		self.loadRecipes(from: RecipeSearchQuery(title: searchTextTrimmed, ingredients: self.ingredients, pageNumber: 1))
 	}
 	
 	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 		searchBar.endEditing(true)
+	}
+	
+	func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+		let searchbarHeight = self.navigationItem.searchController?.searchBar.frame.height
+		self.tableView.setContentOffset(CGPoint(x: 0, y: -(searchbarHeight ?? 0) * 2), animated: false)
+		self.loadRecipes(from: RecipeSearchQuery(title: "", ingredients: "", pageNumber: 1))
 	}
 }
 
@@ -172,14 +187,33 @@ extension RecipesTableViewController: UIViewControllerPreviewingDelegate {
 extension RecipesTableViewController {
 	
 	private func setupDelegatesAndViews() {
-		
-		self.recipesSearchBar.delegate = self
 		self.tableView.prefetchDataSource = self
-		
+		self.setupSearchBar()
 		self.tableView.register(UINib(nibName: "RoundImageCell", bundle: nil), forCellReuseIdentifier: "RoundImageCell")
 		if self.traitCollection.forceTouchCapability == .available, let tableView = self.tableView {
 			self.registerForPreviewing(with: self, sourceView: tableView)
 		}
+	}
+	
+	private func setupSearchBar() {
+		self.definesPresentationContext = true
+		self.navigationItem.apply {
+			$0.hidesSearchBarWhenScrolling = true
+			$0.searchController = UISearchController(searchResultsController: nil).apply {
+				$0.delegate = self
+				$0.searchBar.apply {
+					$0.delegate = self
+					$0.tintColor = self.view.tintColor
+				}
+				$0.obscuresBackgroundDuringPresentation = false
+			}
+		}
+	}
+	
+	private func loadRecipes(from newQuery: RecipeSearchQuery) {
+		self.ingredients = newQuery.ingredients
+		self.query = newQuery
+		self.loadRecipes()
 	}
 
 	private func downloadThumbnailAt(indexPath: IndexPath, loadInto imageView: UIImageView? = nil) {
