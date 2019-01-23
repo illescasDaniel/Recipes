@@ -11,13 +11,11 @@ import SafariServices
 
 class RecipesTableViewController: UITableViewController {
 	
-	private var query = RecipeSearchQuery(title: "", ingredients: "", pageNumber: 1)
+	private var query = RecipePuppyClientService.Request(title: "", ingredients: "", pageNumber: 1)
+	private var recipes: [RecipePuppyClientService.Response.Result] = []
 	
-	private var recipes: [Recipe] = []
 	private var ingredients: String = "" // [Ingredient] when "enum Ingredient" is completed
 	private var images: [String: UIImage] = [:]
-	
-	private let downloadManager = DownloadManager()
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +23,7 @@ class RecipesTableViewController: UITableViewController {
 		
 		self.setupDelegatesAndViews()
 		
-		self.loadRecipes()
+		self.loadNewRecipes()
 		
 		self.navigationItem.rightBarButtonItem?.target = self
 		self.navigationItem.rightBarButtonItem?.action = #selector(self.ingredientFilterButtonAction)
@@ -59,13 +57,13 @@ class RecipesTableViewController: UITableViewController {
 		}
 		if !self.ingredients.isEmpty {
 			ingredientsFilterAlert.addAction(UIAlertAction(title: "Reset", style: .default) { _ in
-				self.loadRecipes(from: RecipeSearchQuery(title: self.query.title, ingredients: "", pageNumber: 1))
+				self.loadRecipes(from: RecipePuppyClientService.Request(title: self.query.title, ingredients: "", pageNumber: 1))
 			})
 		}
 		ingredientsFilterAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 		ingredientsFilterAlert.addAction(UIAlertAction(title: "Use", style: .default) { _ in
 			guard let ingredientsFilterText = ingredientsFilterAlert.textFields?.first?.text  else { return }
-			self.loadRecipes(from: RecipeSearchQuery(title: self.query.title, ingredients: ingredientsFilterText, pageNumber: 1))
+			self.loadRecipes(from: RecipePuppyClientService.Request(title: self.query.title, ingredients: ingredientsFilterText, pageNumber: 1))
 		})
 		self.present(ingredientsFilterAlert, animated: true)
 	}
@@ -78,12 +76,17 @@ class RecipesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		tableView.backgroundView = self.recipes.isEmpty ? self.emptySearchBackgroundView() : nil
-        return self.recipes.count
+        return self.recipes.count + 10
     }
 	
 	override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 		DispatchQueue.main.async {
-			guard let recipe = self.recipes[safe: indexPath.row] else { return }
+			guard let recipe = self.recipes[safe: indexPath.row] else {
+				cell.textLabel?.text = "-"
+				cell.detailTextLabel?.text = "-"
+				cell.imageView?.image = UIImage(imageLiteralResourceName: "placeholder")
+				return
+			}
 			cell.textLabel?.text = recipe.title
 			cell.detailTextLabel?.text = recipe.ingredients
 			if let image = self.images[recipe.thumbnail] {
@@ -103,7 +106,7 @@ class RecipesTableViewController: UITableViewController {
 			self.preloadNextPages(currentRow: indexPath.row)
 		}
 		
-		if indexPath.row < 10 {
+		if indexPath.row < 10 { // Because the cell is already loaded in `willDisplay cell`
 			DispatchQueue.main.async {
 				guard let recipe = self.recipes[safe: indexPath.row] else { return }
 				if let image = self.images[recipe.thumbnail] {
@@ -122,7 +125,6 @@ class RecipesTableViewController: UITableViewController {
 	}
 	
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		
 		if !self.query.ingredients.isEmpty {
 			return "Results filtered by ingredients"
 		}
@@ -133,13 +135,12 @@ class RecipesTableViewController: UITableViewController {
 extension RecipesTableViewController: SFSafariViewControllerDelegate {}
 
 extension RecipesTableViewController: UISearchBarDelegate, UISearchControllerDelegate {
-	
 	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		let searchTextTrimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
 		if searchText.isEmpty {
 			searchBar.endEditing(true)
 		}
-		self.loadRecipes(from: RecipeSearchQuery(title: searchTextTrimmed, ingredients: self.ingredients, pageNumber: 1))
+		self.loadRecipes(from: RecipePuppyClientService.Request(title: searchTextTrimmed, ingredients: self.ingredients, pageNumber: 1))
 	}
 	
 	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -149,7 +150,7 @@ extension RecipesTableViewController: UISearchBarDelegate, UISearchControllerDel
 	func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
 		let searchbarHeight = self.navigationItem.searchController?.searchBar.frame.height
 		self.tableView.setContentOffset(CGPoint(x: 0, y: -(searchbarHeight ?? 0) * 2), animated: false)
-		self.loadRecipes(from: RecipeSearchQuery(title: "", ingredients: "", pageNumber: 1))
+		self.loadRecipes(from: RecipePuppyClientService.Request(title: "", ingredients: "", pageNumber: 1))
 	}
 }
 
@@ -160,7 +161,7 @@ extension RecipesTableViewController: UITableViewDataSourcePrefetching {
 	func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
 		indexPaths.forEach {
 			if let recipe = self.recipes[safe: $0.row], let url = URL(string: recipe.thumbnail) {
-				self.downloadManager.cancelTaskWith(url: url)
+				DownloadManager.shared.cancelTaskWith(url: url)
 			}
 		}
 	}
@@ -210,15 +211,15 @@ extension RecipesTableViewController {
 		}
 	}
 	
-	private func loadRecipes(from newQuery: RecipeSearchQuery) {
+	private func loadRecipes(from newQuery: RecipePuppyClientService.Request) {
 		self.ingredients = newQuery.ingredients
 		self.query = newQuery
-		self.loadRecipes()
+		self.loadNewRecipes()
 	}
 
 	private func downloadThumbnailAt(indexPath: IndexPath, loadInto imageView: UIImageView? = nil) {
 		guard let thumbnail = self.recipes[safe: indexPath.row]?.thumbnail, let thumbnailURL = URL(string: thumbnail) else { return }
-		self.downloadManager.manageData(from: thumbnailURL) { data in
+		DownloadManager.shared.manageData(from: thumbnailURL) { data in
 			guard let data = data, let image = UIImage(data: data) else { return }
 			self.images[thumbnail] = image
 			imageView?.image = image
@@ -238,36 +239,52 @@ extension RecipesTableViewController {
 	}
 	
 	private func preloadNextPages(currentRow: Int) {
-		if currentRow == self.recipes.count-8 {
+		if currentRow == self.recipes.count { //-8 {
 			self.loadNextPageOfRecipes()
 		}
 	}
 	
-	private func loadRecipes() {
+	private func loadNewRecipes() {
 		self.query.pageNumber = 1
-		RecipesSearch(query: self.query).manageRecipes { recipes in
-			self.recipes = recipes
-			DispatchQueue.main.async {
-				self.tableView.reloadData()
+		RecipesSearch(query: self.query).manageRecipes { response in
+			switch response {
+			case .success(let newRecipes, _):
+				self.recipes = newRecipes.results
+				DispatchQueue.main.async {
+					self.tableView.reloadData()
+				}
+			case .dataResponse(let data, let response):
+				print("Error mapping new recipes", data, response ?? "")
+			case .error(let message, let response, let error):
+				print("An error ocurring loading new recipes", message, response ?? "", error ?? "")
 			}
 		}
 	}
 	
 	private func loadNextPageOfRecipes() {
-		let pagesToAdvance: UInt32 = 2
-		self.query.pageNumber += pagesToAdvance
-		RecipesSearch(query: self.query).managePagesOfRecipes(pages: pagesToAdvance, { nextRecipes in
-			if (self.recipes.count + nextRecipes.count) > self.recipes.count {
-				self.recipes += nextRecipes
-				DispatchQueue.main.async {
-					self.tableView.reloadData()
+		self.query.pageNumber += 1
+		RecipesSearch(query: self.query).manageRecipes { response in
+			
+			switch response {
+			case .success(let nextRecipesResponse, _):
+				let nextRecipes = nextRecipesResponse.results
+				if (self.recipes.count + nextRecipes.count) > self.recipes.count {
+					self.recipes += nextRecipes
+					DispatchQueue.main.async {
+						self.tableView.reloadData()
+					}
 				}
+			case .dataResponse(let data, let response):
+				print("Error mapping next recipes", data, response ?? "")
+			case .error(let message, let response, let error):
+				print("An error ocurring loading next recipes", message, response ?? "", error ?? "")
 			}
-		})
+		}
 	}
 	
 	private func presentWebInSafariVC(url: URL?) {
 		guard let url = url else { return }
+		
 		let config = SFSafariViewController.Configuration().apply {
 			$0.entersReaderIfAvailable = true
 		}

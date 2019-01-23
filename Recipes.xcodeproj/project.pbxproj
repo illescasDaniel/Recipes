@@ -7,6 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6510B1BB21F84BF6003A17EB /* RestApiClientResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510B1AE21F84BF6003A17EB /* RestApiClientResponse.swift */; };
+		6510B1BC21F84BF6003A17EB /* RestApiClientSendResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510B1AF21F84BF6003A17EB /* RestApiClientSendResponse.swift */; };
+		6510B1BD21F84BF6003A17EB /* RestApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510B1B021F84BF6003A17EB /* RestApiClient.swift */; };
+		6510B1BE21F84BF6003A17EB /* RestApiClientProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510B1B121F84BF6003A17EB /* RestApiClientProtocol.swift */; };
+		6510B1BF21F84BF6003A17EB /* RestApiClientHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510B1B221F84BF6003A17EB /* RestApiClientHeaders.swift */; };
+		6510B1C021F84BF6003A17EB /* RestApiClientProtocolDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510B1B321F84BF6003A17EB /* RestApiClientProtocolDetails.swift */; };
+		6510B1C121F84BF6003A17EB /* RestApiClientStatusCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510B1B421F84BF6003A17EB /* RestApiClientStatusCodes.swift */; };
+		6510B1C221F84BF6003A17EB /* URLResponse+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510B1B521F84BF6003A17EB /* URLResponse+extensions.swift */; };
+		6510B1C321F84BF6003A17EB /* RestApiClientQueryRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510B1B621F84BF6003A17EB /* RestApiClientQueryRequest.swift */; };
+		6510B1C421F84BF6003A17EB /* RestApiClientHTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510B1B721F84BF6003A17EB /* RestApiClientHTTPMethod.swift */; };
+		6510B1C521F84BF6003A17EB /* RestApiClientCRUDService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510B1B921F84BF6003A17EB /* RestApiClientCRUDService.swift */; };
+		6510B1C621F84BF6003A17EB /* RestApiClientService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510B1BA21F84BF6003A17EB /* RestApiClientService.swift */; };
+		6510B1CB21F84C79003A17EB /* RecipePuppyClientService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510B1CA21F84C79003A17EB /* RecipePuppyClientService.swift */; };
+		6510B1CD21F84CAF003A17EB /* RecipePuppyApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510B1CC21F84CAF003A17EB /* RecipePuppyApiClient.swift */; };
+		6510B1D121F84D21003A17EB /* RecipePuppyGetRecipes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6510B1D021F84D21003A17EB /* RecipePuppyGetRecipes.swift */; };
 		65D668512178FAFF0088755C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D668502178FAFF0088755C /* AppDelegate.swift */; };
 		65D668562178FAFF0088755C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65D668542178FAFF0088755C /* Main.storyboard */; };
 		65D668582178FB010088755C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65D668572178FB010088755C /* Assets.xcassets */; };
@@ -50,6 +65,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6510B1AE21F84BF6003A17EB /* RestApiClientResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApiClientResponse.swift; sourceTree = "<group>"; };
+		6510B1AF21F84BF6003A17EB /* RestApiClientSendResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApiClientSendResponse.swift; sourceTree = "<group>"; };
+		6510B1B021F84BF6003A17EB /* RestApiClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApiClient.swift; sourceTree = "<group>"; };
+		6510B1B121F84BF6003A17EB /* RestApiClientProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApiClientProtocol.swift; sourceTree = "<group>"; };
+		6510B1B221F84BF6003A17EB /* RestApiClientHeaders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApiClientHeaders.swift; sourceTree = "<group>"; };
+		6510B1B321F84BF6003A17EB /* RestApiClientProtocolDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApiClientProtocolDetails.swift; sourceTree = "<group>"; };
+		6510B1B421F84BF6003A17EB /* RestApiClientStatusCodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApiClientStatusCodes.swift; sourceTree = "<group>"; };
+		6510B1B521F84BF6003A17EB /* URLResponse+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLResponse+extensions.swift"; sourceTree = "<group>"; };
+		6510B1B621F84BF6003A17EB /* RestApiClientQueryRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApiClientQueryRequest.swift; sourceTree = "<group>"; };
+		6510B1B721F84BF6003A17EB /* RestApiClientHTTPMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApiClientHTTPMethod.swift; sourceTree = "<group>"; };
+		6510B1B921F84BF6003A17EB /* RestApiClientCRUDService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApiClientCRUDService.swift; sourceTree = "<group>"; };
+		6510B1BA21F84BF6003A17EB /* RestApiClientService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApiClientService.swift; sourceTree = "<group>"; };
+		6510B1CA21F84C79003A17EB /* RecipePuppyClientService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePuppyClientService.swift; sourceTree = "<group>"; };
+		6510B1CC21F84CAF003A17EB /* RecipePuppyApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePuppyApiClient.swift; sourceTree = "<group>"; };
+		6510B1D021F84D21003A17EB /* RecipePuppyGetRecipes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePuppyGetRecipes.swift; sourceTree = "<group>"; };
 		65D6684D2178FAFF0088755C /* Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65D668502178FAFF0088755C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		65D668552178FAFF0088755C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -106,6 +136,84 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6510B1AB21F84BBA003A17EB /* RecipePuppyClientService */ = {
+			isa = PBXGroup;
+			children = (
+				6510B1CE21F84CF5003A17EB /* RecipePuppyApiClient */,
+				6510B1AC21F84BCF003A17EB /* RestApiClient */,
+				6510B1CA21F84C79003A17EB /* RecipePuppyClientService.swift */,
+			);
+			path = RecipePuppyClientService;
+			sourceTree = "<group>";
+		};
+		6510B1AC21F84BCF003A17EB /* RestApiClient */ = {
+			isa = PBXGroup;
+			children = (
+				6510B1AD21F84BF6003A17EB /* Protocol */,
+				6510B1B821F84BF6003A17EB /* Service */,
+			);
+			path = RestApiClient;
+			sourceTree = "<group>";
+		};
+		6510B1AD21F84BF6003A17EB /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				6510B1C721F84C18003A17EB /* Extensions */,
+				6510B1C821F84C2D003A17EB /* Details */,
+				6510B1B121F84BF6003A17EB /* RestApiClientProtocol.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		6510B1B821F84BF6003A17EB /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				6510B1B921F84BF6003A17EB /* RestApiClientCRUDService.swift */,
+				6510B1BA21F84BF6003A17EB /* RestApiClientService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		6510B1C721F84C18003A17EB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6510B1B521F84BF6003A17EB /* URLResponse+extensions.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		6510B1C821F84C2D003A17EB /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				6510B1C921F84C43003A17EB /* RestApiClient */,
+				6510B1AE21F84BF6003A17EB /* RestApiClientResponse.swift */,
+				6510B1B321F84BF6003A17EB /* RestApiClientProtocolDetails.swift */,
+				6510B1B621F84BF6003A17EB /* RestApiClientQueryRequest.swift */,
+			);
+			name = Details;
+			sourceTree = "<group>";
+		};
+		6510B1C921F84C43003A17EB /* RestApiClient */ = {
+			isa = PBXGroup;
+			children = (
+				6510B1AF21F84BF6003A17EB /* RestApiClientSendResponse.swift */,
+				6510B1B021F84BF6003A17EB /* RestApiClient.swift */,
+				6510B1B221F84BF6003A17EB /* RestApiClientHeaders.swift */,
+				6510B1B421F84BF6003A17EB /* RestApiClientStatusCodes.swift */,
+				6510B1B721F84BF6003A17EB /* RestApiClientHTTPMethod.swift */,
+			);
+			name = RestApiClient;
+			sourceTree = "<group>";
+		};
+		6510B1CE21F84CF5003A17EB /* RecipePuppyApiClient */ = {
+			isa = PBXGroup;
+			children = (
+				6510B1CC21F84CAF003A17EB /* RecipePuppyApiClient.swift */,
+				6510B1D021F84D21003A17EB /* RecipePuppyGetRecipes.swift */,
+			);
+			path = RecipePuppyApiClient;
+			sourceTree = "<group>";
+		};
 		65D668442178FAFF0088755C = {
 			isa = PBXGroup;
 			children = (
@@ -236,6 +344,7 @@
 		65D668B3217A685B0088755C /* REST Search */ = {
 			isa = PBXGroup;
 			children = (
+				6510B1AB21F84BBA003A17EB /* RecipePuppyClientService */,
 				65D66888217902DC0088755C /* RecipesSearch.swift */,
 			);
 			path = "REST Search";
@@ -401,22 +510,37 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6510B1C621F84BF6003A17EB /* RestApiClientService.swift in Sources */,
+				6510B1C321F84BF6003A17EB /* RestApiClientQueryRequest.swift in Sources */,
 				65D668802178FD550088755C /* RecipeQueryResult.swift in Sources */,
 				65D66899217932710088755C /* ImprovedRecipe.swift in Sources */,
+				6510B1CD21F84CAF003A17EB /* RecipePuppyApiClient.swift in Sources */,
+				6510B1BC21F84BF6003A17EB /* RestApiClientSendResponse.swift in Sources */,
 				65D668BA217B82DE0088755C /* UIView+Extension.swift in Sources */,
 				65D66895217915570088755C /* EncodedRecipeSearchQuery.swift in Sources */,
+				6510B1BD21F84BF6003A17EB /* RestApiClient.swift in Sources */,
 				65D668B8217B829C0088755C /* ApplyProtocol.swift in Sources */,
+				6510B1C421F84BF6003A17EB /* RestApiClientHTTPMethod.swift in Sources */,
+				6510B1C221F84BF6003A17EB /* URLResponse+extensions.swift in Sources */,
 				65D668AB217A40F20088755C /* DownloadManager.swift in Sources */,
+				6510B1C521F84BF6003A17EB /* RestApiClientCRUDService.swift in Sources */,
+				6510B1C021F84BF6003A17EB /* RestApiClientProtocolDetails.swift in Sources */,
 				65D66889217902DC0088755C /* RecipesSearch.swift in Sources */,
 				65D6688B217904000088755C /* RecipeSearchQuery.swift in Sources */,
+				6510B1BB21F84BF6003A17EB /* RestApiClientResponse.swift in Sources */,
 				65D668AD217A64380088755C /* Collection+Extension.swift in Sources */,
+				6510B1BE21F84BF6003A17EB /* RestApiClientProtocol.swift in Sources */,
 				65D6689021790F9D0088755C /* String+Extension.swift in Sources */,
 				65D668512178FAFF0088755C /* AppDelegate.swift in Sources */,
 				65D668BC217B85110088755C /* RecipeImageViewController.swift in Sources */,
+				6510B1D121F84D21003A17EB /* RecipePuppyGetRecipes.swift in Sources */,
 				65D668862178FFCE0088755C /* Ingredients.swift in Sources */,
+				6510B1C121F84BF6003A17EB /* RestApiClientStatusCodes.swift in Sources */,
 				65D6689D217938D80088755C /* RecipesTableViewController.swift in Sources */,
 				65D668822178FDB50088755C /* Recipe.swift in Sources */,
 				65D668A9217A29480088755C /* RoundImageCell.swift in Sources */,
+				6510B1CB21F84C79003A17EB /* RecipePuppyClientService.swift in Sources */,
+				6510B1BF21F84BF6003A17EB /* RestApiClientHeaders.swift in Sources */,
 				65D668922179122A0088755C /* RestParameter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

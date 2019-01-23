@@ -12,20 +12,21 @@ struct EncodedRecipeSearchQuery {
 	
 	let rawQueryAPI: RecipeSearchQuery
 	
-	var title: RestParameter<String> {
-		return RestParameter(parameter: "q", value: rawQueryAPI.title)
+	var title: URLQueryItem {
+		return URLQueryItem(name: "q", value: rawQueryAPI.title)
 	}
 	
-	var ingredients: RestParameter<String> {
-		return RestParameter(parameter: "i",
-							 value: rawQueryAPI.ingredients)/*rawQueryAPI.ingredients
-								.map { $0.urlFormat ?? "" }
-								.joined(separator: ","))*/
+	var ingredients: URLQueryItem {
+		return URLQueryItem(name: "i", value: rawQueryAPI.ingredients)
 	}
 	
-	var page: RestParameter<UInt> {
-		return RestParameter(parameter: "p", value: UInt(rawQueryAPI.pageNumber == 0 ? 1 : rawQueryAPI.pageNumber))
+	var page: URLQueryItem {
+		return URLQueryItem(name: "p", value: String(rawQueryAPI.pageNumber == 0 ? 1 : rawQueryAPI.pageNumber))
 	}
 	
-	let format = RestParameter(parameter: "format", value: "json")
+	let format = URLQueryItem(name: "format", value: "json")
+	
+	var allQueryItems: [URLQueryItem] {
+		return [self.title, self.ingredients, self.page, self.format]
+	}
 }

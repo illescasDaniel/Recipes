@@ -1,6 +1,5 @@
 //
 //  DownloadManager.swift
-//  RecipePuppy
 //
 //  Created by Daniel Illescas Romero on 19/10/2018.
 //  Copyright © 2018 Daniel Illescas Romero. All rights reserved.
@@ -10,17 +9,23 @@ import Foundation
 
 class DownloadManager {
 	
+	static let shared = DownloadManager()
+	
+	fileprivate init() {}
+	
 	private var tasks: [URLSessionTask] = []
 	
-	func manageData(from url: URL, _ handleData: @escaping ((Data?) -> Void)) {
+	func manageData(from url: URL?, _ handleData: @escaping ((Data?) -> Void)) {
 		
-		guard !self.tasks.contains(where: { $0.originalRequest?.url == url }) else {
+		guard let url = url, !self.tasks.contains(where: { $0.originalRequest?.url == url && $0.state == .running }) else {
 			return
 		}
 		
-		let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+		let task = URLSession.shared.downloadTask(with: url) { (url, response, error) in
 			DispatchQueue.main.async {
-				handleData(data)
+				if let url = url, let data = try? Data(contentsOf: url) {
+					handleData(data)
+				}
 			}
 		}
 		
